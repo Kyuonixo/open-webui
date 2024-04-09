@@ -8,7 +8,7 @@ from fastapi import (
     Form,
 )
 from fastapi.middleware.cors import CORSMiddleware
-import os, shutil, logging
+import os, shutil, logging, re
 
 from pathlib import Path
 from typing import List
@@ -448,8 +448,11 @@ def store_doc(
 
     log.info(f"file.content_type: {file.content_type}")
     try:
-        filename = file.filename
+        unsanitized_filename = file.filename
+        filename = os.path.basename(unsanitized_filename)
+
         file_path = f"{UPLOAD_DIR}/{filename}"
+
         contents = file.file.read()
         with open(file_path, "wb") as f:
             f.write(contents)
@@ -460,7 +463,7 @@ def store_doc(
             collection_name = calculate_sha256(f)[:63]
         f.close()
 
-        loader, known_type = get_loader(file.filename, file.content_type, file_path)
+        loader, known_type = get_loader(filename, file.content_type, file_path)
         data = loader.load()
 
         try:
