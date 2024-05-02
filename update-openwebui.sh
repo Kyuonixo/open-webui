@@ -14,5 +14,6 @@ echo "Open WebUI has been updated!"
 
 sleep 3
 
-# Restarting the service
+# Restarting the service to apply changes
+# Only if you have made a service for Open WebUI
 echo "Now you can restart the service to apply changes."
