@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Updating Open WebUI from the repository
+git pull
+
 # Updateing Node Frontend build
 npm i
 npm run build
